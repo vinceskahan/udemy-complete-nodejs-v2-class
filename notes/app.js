@@ -16,6 +16,10 @@ if (command === 'add') {
   var note = notes.addNote(argv.title, argv.body);
   if (note) {
     console.log('note added');
+    console.log('---');
+    // (node 5) console.log('Title:' + note.title);
+    console.log(`Title: ${note.title}`);
+    console.log(`Body: ${note.body}`);
   } else {
     console.log('note not added');
   }
