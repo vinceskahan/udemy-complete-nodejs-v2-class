@@ -50,6 +50,9 @@ var removeNote = (title) => {
   // save the notes that don't match the one being removed
   var filteredNotes = notes.filter((note) => note.title !== title);
   saveNotes(filteredNotes);
+
+  // true means we removed something
+  return notes.length !== filteredNotes.length;
 }
 
 // the "getNote: getNote" syntax is pre-node v6, but still valid
