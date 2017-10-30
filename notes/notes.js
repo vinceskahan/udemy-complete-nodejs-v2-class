@@ -41,8 +41,11 @@ var getAll = () => {
   console.log('Getting all notes');
 }
 
+// return the first match (there will be only one) in an array
 var getNote = (title) => {
-  console.log('Getting note: ', title);
+  var notes = fetchNotes();
+  var filteredNotes = notes.filter((note) => note.title === title);
+  return filteredNotes[0];
 }
 
 var removeNote = (title) => {
