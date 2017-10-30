@@ -46,7 +46,10 @@ var getNote = (title) => {
 }
 
 var removeNote = (title) => {
-  console.log('Removing note: ', title);
+  var notes = fetchNotes();
+  // save the notes that don't match the one being removed
+  var filteredNotes = notes.filter((note) => note.title !== title);
+  saveNotes(filteredNotes);
 }
 
 // the "getNote: getNote" syntax is pre-node v6, but still valid
