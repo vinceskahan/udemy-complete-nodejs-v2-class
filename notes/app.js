@@ -16,10 +16,7 @@ if (command === 'add') {
   var note = notes.addNote(argv.title, argv.body);
   if (note) {
     console.log('note added');
-    console.log('---');
-    // (node 5) console.log('Title:' + note.title);
-    console.log(`Title: ${note.title}`);
-    console.log(`Body: ${note.body}`);
+    notes.logNote(note);
   } else {
     console.log('note not added');
   }
@@ -30,9 +27,7 @@ if (command === 'add') {
   console.log(note);
   if (note) {
     console.log('note found');
-    console.log('---');
-    console.log(`Title: ${note.title}`);
-    console.log(`Body: ${note.body}`);
+    notes.logNote(note);
   } else {
     console.log('note not found');
   }

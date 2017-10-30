@@ -17,10 +17,12 @@ var fetchNotes = () => {
   }
 };
 
+// saves all notes to a file
 var saveNotes = (notes) => {
     fs.writeFileSync('notes-data.json', JSON.stringify(notes));
 };
 
+// adds a note
 var addNote = (title,body) => {
   var notes = fetchNotes();
   var note = {
@@ -35,12 +37,14 @@ var addNote = (title,body) => {
     saveNotes(notes);
     return note;
   }
-}; // else do nothing
+};
 
+// gets all notes
 var getAll = () => {
   console.log('Getting all notes');
 }
 
+// get one note
 // return the first match (there will be only one) in an array
 var getNote = (title) => {
   var notes = fetchNotes();
@@ -48,6 +52,7 @@ var getNote = (title) => {
   return filteredNotes[0];
 }
 
+// remove a note
 var removeNote = (title) => {
   var notes = fetchNotes();
   // save the notes that don't match the one being removed
@@ -58,10 +63,17 @@ var removeNote = (title) => {
   return notes.length !== filteredNotes.length;
 }
 
+var logNote = (note) => {
+  console.log('---');
+  console.log(`Title: ${note.title}`);
+  console.log(`Body: ${note.body}`);
+    // (node 5) console.log('Title:' + note.title);
+};
 // the "getNote: getNote" syntax is pre-node v6, but still valid
 module.exports = {
   addNote,
   getAll,
   getNote: getNote,
   removeNote,
+  logNote,
 };
