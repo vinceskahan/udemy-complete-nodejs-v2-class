@@ -1,3 +1,4 @@
+const request = require('request');
 
 var geocodeAddress = (address) => {
 
@@ -20,10 +21,8 @@ var geocodeAddress = (address) => {
       // example - if we exceed the api limit
       console.log(`unexpected error: ${body.status}`);
     }
-  };
+  });
 
 };
 
-module.exports = {
-  geocodeAddress,
-};
+module.exports.geocodeAddress = geocodeAddress;
