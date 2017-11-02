@@ -31,5 +31,9 @@ request({
   url: address="https://api.forecast.io/forecast/eedd2d885bd3e0568450567138826387/47.3055312,-122.3744209",
   json: true
 }, (error, response, body) => {
-  console.log(body.currently.temperature);
+  if (!error && response.statusCode === 200) {
+    console.log(body.currently.temperature);
+  } else {
+    console.log('unable to fetch weather');
+  }
 });
