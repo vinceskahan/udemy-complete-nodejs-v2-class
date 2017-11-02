@@ -25,4 +25,6 @@ var geocodeAddress = (address) => {
 
 };
 
-module.exports.geocodeAddress = geocodeAddress;
+module.exports = {
+  geocodeAddress,
+};
