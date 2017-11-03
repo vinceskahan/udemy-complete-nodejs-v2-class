@@ -20,7 +20,7 @@ var geocodeURL = `https://mapsgoogleapis.com/maps/api/geocode/json?address=${enc
 
 axios.get(geocodeURL).then((response) => {
   console.log(response.data);
-}).catch((e) =>
+}).catch((e) => {
   if (e.code === "ENOTFOUND") {
     console.log('cannot connect to server');
   }
