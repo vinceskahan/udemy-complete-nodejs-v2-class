@@ -2,6 +2,10 @@ const request = require('request');
 
 var geocodeAddress = (address) => {
 
+
+// this example wraps 'request' with a promise
+// because request doesn't natively handle promises
+ 
   return new Promise((resolve,reject) => {
 
     var encodedURI = encodeURIComponent(address);
