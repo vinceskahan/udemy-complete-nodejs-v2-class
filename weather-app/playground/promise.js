@@ -1,7 +1,7 @@
 var somePromise = new Promise((resolve,reject) => {
   setTimeout(() => {
-//    resolve('Hey it worked');
-    reject(`ruh roh`);
+    resolve('Hey it worked');
+    // reject(`ruh roh`);
   }, 500);
 
 });
