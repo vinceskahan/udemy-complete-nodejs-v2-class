@@ -16,12 +16,15 @@ const argv = yargs
   .argv;
 
 var encodedAddress = encodeURIComponent(argv.address);
-var geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}`;
+var geocodeURL = `https://mapsgoogleapis.com/maps/api/geocode/json?address=${encodedAddress}`;
 
 axios.get(geocodeURL).then((response) => {
   console.log(response.data);
-}).catch((e) => {
-  console.log(e);
+}).catch((e) =>
+  if (e.code === "ENOTFOUND") {
+    console.log('cannot connect to server');
+  }
+  //console.log(e);
 });
 
 //darksky api key = eedd2d885bd3e0568450567138826387
