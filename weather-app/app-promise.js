@@ -20,6 +20,8 @@ var geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json?address=${en
 
 axios.get(geocodeURL).then((response) => {
   console.log(response.data);
+}).catch((e) => {
+  console.log(e);
 });
 
 //darksky api key = eedd2d885bd3e0568450567138826387
