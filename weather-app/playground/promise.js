@@ -11,9 +11,14 @@ var asyncAdd = (a,b) => {
 };
 
 // geez this is needlessly slick and unreadable
-asyncAdd(1,2).then((result) => {
+
+//promise chain - use catch to catch first failure
+asyncAdd(1,6).then((result) => {
   console.log(`result = `, result);
-}, (errorMessage) => {
+  return asyncAdd(result, '33');
+}).then((result) => {
+  console.log('should be 36: ', result);
+}).catch((errorMessage) => {
   console.log(errorMessage);
 });
 
