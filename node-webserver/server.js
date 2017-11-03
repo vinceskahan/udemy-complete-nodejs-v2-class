@@ -7,13 +7,10 @@ app.set('view engine','hbs');
 app.use(express.static(__dirname + "/public"));
 
 app.get('/', (request,response) => {
-  //response.send('<h2>hello express</h2>');
-  response.send({
-    name: 'me',
-    likes: [
-      'item1',
-      'item2',
-    ]
+  response.render("home.hbs", {
+    pageTitle: 'home page',
+    currentYear: new Date().getFullYear(),
+    welcomeMessage: "your homepage rocks",
   });
 });
 
