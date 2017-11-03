@@ -16,7 +16,7 @@ var geocodeAddress = (address) => {
       } else if (body.status === "ZERO_RESULTS") {
         reject('no results found');
       } else if (body.status === "OK"){
-        resolve(undefined, {
+        resolve({
           address: body.results[0].formatted_address,
           latitude: body.results[0].geometry.location.lat,
           longitude: body.results[0].geometry.location.lng,
@@ -28,7 +28,7 @@ var geocodeAddress = (address) => {
     });
 
   }
-  
+
 )};
 
 geocodeAddress('19146').then( (location) => {
