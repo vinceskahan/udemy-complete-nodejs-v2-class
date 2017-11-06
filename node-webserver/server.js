@@ -7,7 +7,6 @@ var app = express();
 hbs.registerPartials(__dirname + '/views/partials');
 
 app.set('view engine','hbs');
-app.use(express.static(__dirname + "/public"));
 
 app.use((request,response,next) => {
   var now = new Date().toString();
@@ -23,9 +22,11 @@ app.use((request,response,next) => {
 
 //this is above others, so it runs first
 //note there's no next() so it doesn't proceed
-app.use((req, res, next) => {
-  res.render('maintenance.hbs');
-});
+// app.use((req, res, next) => {
+//   res.render('maintenance.hbs');
+// });
+
+app.use(express.static(__dirname + "/public"));
 
 hbs.registerHelper('getCurrentYear', () => {
   return new Date().getFullYear();
