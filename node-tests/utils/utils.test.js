@@ -30,11 +30,14 @@ it('should async add two numbers', (done) => {
 it('should square a number', () => {
   var results = utils.square(3);
   expect(results).toBe(9).toBeA('number');
-  // if (results !== 9) {
-  //   throw new Error(`expected 9 got ${results}`);
-  // };
 });
 
+it('should async square two numbers', (done) => {
+  var results = utils.asyncSquare(4, (square) => {
+    expect(square).toBe(16).toBeA('number');
+    done();
+  });
+});
 //should verify first and last names are set
 //assert it includes first+lastname with proper values
 //and type is an object
