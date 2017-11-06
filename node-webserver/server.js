@@ -10,7 +10,7 @@ app.use(express.static(__dirname + "/public"));
 
 app.use((request,response,next) => {
   var now = new Date().toString();
-  console.log(`${request.}: ${request.method} ${request.url}`);
+  console.log(`${now}: ${request.method} ${request.url}`);
   next();
 });
 
