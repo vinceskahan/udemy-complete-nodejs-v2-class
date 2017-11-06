@@ -1,5 +1,6 @@
 const express = require("express");
 const hbs = require("hbs");
+const fs = require("fs");
 
 var app = express();
 
@@ -10,7 +11,13 @@ app.use(express.static(__dirname + "/public"));
 
 app.use((request,response,next) => {
   var now = new Date().toString();
-  console.log(`${now}: ${request.method} ${request.url}`);
+  var log = `${now}: ${request.method} ${request.url}`;
+  fs.appendFile('server.log', log + "\n", (err) => {
+    if (err) {
+      console.log('error: unabble to append to server.log');
+    }
+  });
+  console.log(log);
   next();
 });
 
