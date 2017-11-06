@@ -1,43 +1,49 @@
 const expect = require('expect')
 const utils = require('./utils');
 
-// it('should add two numbers', () => {
-//   var results = utils.add(33,11);
-//   expect(results).toBe(44).toBeA('number');
-//
-//   // if (results !== 44) {
-//   //   throw new Error(`expected 44 got ${results}`);
-//   // };
-// });
-//
-// // bug - mocha thinks this passes always because async
-// // returns immediately
-// it('should async add two numbers', () => {
-//   var results = utils.asyncAdd(4,3, (sum) => {
-//     expect(sum).toBe(7).toBeA('number');
-//   });
-// });
-//
-// // better...
-// // add call to done() so mocha waits to be indeed done
-// it('should async add two numbers', (done) => {
-//   var results = utils.asyncAdd(4,3, (sum) => {
-//     expect(sum).toBe(7).toBeA('number');
-//     done();
-//   });
-// });
-//
-// it('should square a number', () => {
-//   var results = utils.square(3);
-//   expect(results).toBe(9).toBeA('number');
-// });
-//
-// it('should async square two numbers', (done) => {
-//   var results = utils.asyncSquare(4, (square) => {
-//     expect(square).toBe(16).toBeA('number');
-//     done();
-//   });
-// });
+describe('Utils', () => {
+
+  describe('#add', () => {
+    it('should add two numbers', () => {
+      var results = utils.add(33,11);
+      expect(results).toBe(44).toBeA('number');
+
+      // if (results !== 44) {
+      //   throw new Error(`expected 44 got ${results}`);
+      // };
+    });
+  });
+
+  describe('#asyncAdd', () => {
+    // bug - mocha thinks this passes always because async
+    // returns immediately
+    it('should async add two numbers', () => {
+      var results = utils.asyncAdd(4,3, (sum) => {
+        expect(sum).toBe(7).toBeA('number');
+      });
+    });
+
+    // better...
+    // add call to done() so mocha waits to be indeed done
+    it('should async add two numbers', (done) => {
+      var results = utils.asyncAdd(4,3, (sum) => {
+        expect(sum).toBe(7).toBeA('number');
+        done();
+      });
+    });
+  });
+  it('should square a number', () => {
+    var results = utils.square(3);
+    expect(results).toBe(9).toBeA('number');
+  });
+
+  it('should async square two numbers', (done) => {
+    var results = utils.asyncSquare(4, (square) => {
+      expect(square).toBe(16).toBeA('number');
+      done();
+    });
+  });
+
 // //should verify first and last names are set
 // //assert it includes first+lastname with proper values
 // //and type is an object
@@ -79,3 +85,5 @@ const utils = require('./utils');
 //   // similarly toExclude
 //
 // });
+
+});
