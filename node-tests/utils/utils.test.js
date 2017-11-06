@@ -3,6 +3,8 @@ const utils = require('./utils');
 
 describe('Utils', () => {
 
+  //-------------
+
   describe('#add', () => {
     it('should add two numbers', () => {
       var results = utils.add(33,11);
@@ -13,6 +15,8 @@ describe('Utils', () => {
       // };
     });
   });
+
+  //-------------
 
   describe('#asyncAdd', () => {
     // bug - mocha thinks this passes always because async
@@ -32,17 +36,24 @@ describe('Utils', () => {
       });
     });
   });
-  it('should square a number', () => {
-    var results = utils.square(3);
-    expect(results).toBe(9).toBeA('number');
-  });
 
-  it('should async square two numbers', (done) => {
-    var results = utils.asyncSquare(4, (square) => {
-      expect(square).toBe(16).toBeA('number');
-      done();
+  describe('#square', () => {
+    it('should square a number', () => {
+      var results = utils.square(3);
+      expect(results).toBe(9).toBeA('number');
     });
   });
+
+  describe('#asyncSquare', () => {
+    it('should async square two numbers', (done) => {
+      var results = utils.asyncSquare(4, (square) => {
+        expect(square).toBe(16).toBeA('number');
+        done();
+      });
+    });
+  });
+
+  //-------------
 
 // //should verify first and last names are set
 // //assert it includes first+lastname with proper values

@@ -6,14 +6,14 @@ var app = express();
 //   res.send('hello world');
 // });
 
-// app.get('/', (req,res) => {
-//   //break it on purpose
-//      // res.status(404).send('hello world');
-//   res.status(404).send({
-//     error: 'Page not found.',
-//     name: 'Todo App v1.0'
-//   });
-// });
+app.get('/', (req,res) => {
+  //break it on purpose
+     // res.status(404).send('hello world');
+  res.status(404).send({
+    error: 'Page not found.',
+    name: 'Todo App v1.0'
+  });
+});
 
 // GET /users and return array of users
 //           each with a name+age property
