@@ -10,6 +10,23 @@ it('should add two numbers', () => {
   // };
 });
 
+// bug - mocha thinks this passes always because async
+// returns immediately
+it('should async add two numbers', () => {
+  var results = utils.asyncAdd(4,3, (sum) => {
+    expect(sum).toBe(7).toBeA('number');
+  });
+});
+
+// better...
+// add call to done() so mocha waits to be indeed done
+it('should async add two numbers', (done) => {
+  var results = utils.asyncAdd(4,3, (sum) => {
+    expect(sum).toBe(7).toBeA('number');
+    done();
+  });
+});
+
 it('should square a number', () => {
   var results = utils.square(3);
   expect(results).toBe(9).toBeA('number');
