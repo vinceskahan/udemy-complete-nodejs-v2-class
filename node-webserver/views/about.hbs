@@ -5,10 +5,10 @@
     <title>some website</title>
   </head>
   <body>
-    <h1>{{pageTitle}}</h1>
+    {{> header}}
     <p>some about here</p>
-    <footer>
-        <p>copyright {{currentYear}}</p>
-    </footer>
+
+    <!- use partials for the footer ->
+    {{> footer}}
   </body>
 </html>
