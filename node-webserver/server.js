@@ -21,6 +21,12 @@ app.use((request,response,next) => {
   next();
 });
 
+//this is above others, so it runs first
+//note there's no next() so it doesn't proceed
+app.use((req, res, next) => {
+  res.render('maintenance.hbs');
+});
+
 hbs.registerHelper('getCurrentYear', () => {
   return new Date().getFullYear();
 });
@@ -41,7 +47,6 @@ app.get('/about', (req, res) => {
     pageTitle: 'about page',
     });
 });
-
 // send back json with errorMessage property and content of error
 
 var errorMessage = {
