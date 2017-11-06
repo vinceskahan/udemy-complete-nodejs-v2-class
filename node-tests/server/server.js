@@ -10,7 +10,8 @@ app.get('/', (req,res) => {
   //break it on purpose
      // res.status(404).send('hello world');
   res.status(404).send({
-    error: 'Page not found.'
+    error: 'Page not found.',
+    name: 'Todo App v1.0'
   });
 });
 
