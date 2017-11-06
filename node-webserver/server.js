@@ -12,6 +12,10 @@ hbs.registerHelper('getCurrentYear', () => {
   return new Date().getFullYear();
 });
 
+hbs.registerHelper('screamIt', (text) => {
+  return text.toUpperCase();
+});
+
 app.get('/', (request,response) => {
   response.render("home.hbs", {
     pageTitle: 'home page',
