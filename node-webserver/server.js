@@ -50,6 +50,12 @@ app.get('/about', (req, res) => {
     pageTitle: 'about page',
     });
 });
+
+app.get('/projects', (req, res) => {
+  res.render('projects.hbs', {
+    pageTitle: 'projects page',
+    });
+});
 // send back json with errorMessage property and content of error
 
 var errorMessage = {
