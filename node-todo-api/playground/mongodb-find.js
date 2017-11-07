@@ -24,12 +24,23 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err,db) => {
   // });
 
   // get a particular document by id
-  db.collection('Todos').find().count().then((count) => {
+  // db.collection('Todos').find().count().then((count) => {
+  //   console.log('todos');
+  //   console.log(`todos count: ${count}`);
+  // }, (err) => {
+  //   console.log('unable to fetch todos', err);
+  // });
+
+  // get count of docs where name is 'somedude'
+  db.collection('Users').find({
+    name: 'somedude'
+  }).count().then((count) => {
     console.log('todos');
     console.log(`todos count: ${count}`);
   }, (err) => {
     console.log('unable to fetch todos', err);
   });
+
 
   //db.close();
 });
