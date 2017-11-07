@@ -10,16 +10,30 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err,db) => {
   }
   console.log('connected to db');
 
-  //findOneAndUpdate(filter,update,options,callback)
-  db.collection('Todos').findOneAndUpdate({
-    _id: new ObjectID("5a01ffe1238f8fe5601b0d63")
+  // //findOneAndUpdate(filter,update,options,callback)
+  // db.collection('Todos').findOneAndUpdate({
+  //   _id: new ObjectID("5a01ffe1238f8fe5601b0d63")
+  // }, {
+  //   $set: { completed: true }
+  // }, {
+  //   returnOriginal: false
+  // }).then((results) => {
+  //     console.log(JSON.stringify(results,undefined,2));
+  // });
+
+  // challenge, update name and increment age
+  // https://docs.mongodb.com/manual/reference/operator/update
+  db.collection('Users').findOneAndUpdate({
+    _id: new ObjectID("5a020492238f8fe5601b0e08")
   }, {
-    $set: { completed: true }
+    $set: { name: "updatedname" },
+    $inc: { age: 1 }
   }, {
     returnOriginal: false
   }).then((results) => {
       console.log(JSON.stringify(results,undefined,2));
   });
+
 
   db.close();
 });
