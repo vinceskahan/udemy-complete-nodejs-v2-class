@@ -10,8 +10,8 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err,db) => {
   }
   console.log('connected to db');
 
-  // get array of all docs
-  db.collection('Todos').find().toArray().then((docs) => {
+  // get array of all docs that are false
+  db.collection('Todos').find({completed: false}).toArray().then((docs) => {
     console.log('todos');
     console.log(JSON.stringify(docs,undefined,2));
   }, (err) => {
