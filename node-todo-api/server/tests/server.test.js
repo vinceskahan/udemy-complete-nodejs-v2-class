@@ -16,6 +16,7 @@ beforeEach((done) => {
   }).then (() => done());
 });
 
+//------ POST tests --------
 
 describe('POST /todos', () => {
 
@@ -58,25 +59,19 @@ describe('POST /todos', () => {
   }); // end of it
 });   // end of describe POST
 
+
+//------ GET tests --------
+
 describe('GET /todos', () => {
-//
-//   it('should get all todos', (done) => {
-//     request(app)
-//       .get('/todos')
-//       .expect(200)
-//       .expect((res) => {
-//         expect(res.body.text).toBe(text);
-//       })
-//       .end((err,res) => {
-//         if (err) {
-//           return done(err);
-//         }
-//         Todo.find().then((todos) => {
-//           expect(todos.length).toBe(0);
-//           expect(todos[0].text).toBe(text);
-//           done();
-//         }).catch((e) => done(e));
-//       }); //end of .end
-//   }); // end of it
-//
-}); // end of describe
+
+  it('should get all todos', (done) => {
+    request(app)
+      .get('/todos')
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.todos.length).toBe(2);
+      })
+      .end(done);
+  }); //end of .it
+
+}); // end of describe GET
