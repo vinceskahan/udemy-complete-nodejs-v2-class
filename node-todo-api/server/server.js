@@ -42,3 +42,32 @@ newTodo2.save().then( (doc) => {
 }, (e) => {
   console.log('unable to save todo');
 });
+
+var User = mongoose.model('User', {
+  email: {
+    type: String,
+    required: true,
+    minlength: 1,
+    trim: true
+  }
+});
+
+var newUser = new User( {
+  email: "me@example.com"
+});
+
+newUser.save().then( (doc) => {
+  console.log('saved user: ', doc);
+}, (e) => {
+  console.log('unable to save user',e);
+});
+
+var newUser2 = new User( {
+  email: ""
+});
+
+newUser2.save().then( (doc) => {
+  console.log('saved user: ', doc);
+}, (e) => {
+  console.log('unable to save user',e);
+});
