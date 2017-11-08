@@ -14,3 +14,7 @@ Todo.findOne({
 }).then((todo) => {
   console.log('todo', todo);
 });
+
+Todo.findById(id).then((todo) => {
+  console.log('by id', todo);
+});
