@@ -13,7 +13,6 @@ describe('POST /todos', () => {
 
   it('should create a new todo', (done) => {
     var text = 'test string';
-
     request(app)
       .post('/todos')
       .send({text})
@@ -31,7 +30,24 @@ describe('POST /todos', () => {
           done();
         }).catch((e) => done(e));
       }); //end of .end
-
   }); // end of it
+});   // end of describe
 
+describe('POST /todos', () => {
+  it('should not create an empty todo', (done) => {
+    var text = '';
+    request(app)
+      .post('/todos')
+      .send({text})
+      .expect(400)
+      .end((err,res) => {
+        if (err) {
+          return done(err);
+        }
+        Todo.find().then((todos) => {
+          expect(todos.length).toBe(0);
+          done();
+        }).catch((e) => done(e));
+      }); //end of .end
+  }); // end of it
 });   // end of describe
