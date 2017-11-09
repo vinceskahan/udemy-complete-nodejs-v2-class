@@ -7,7 +7,8 @@ const {Todo} = require('./../models/todo');
 
 const todos = [
   { _id: new ObjectID(), text: "test item 1" },
-  { _id: new ObjectID(), text: "test item 2" }
+  { _id: new ObjectID(), text: "test item 2",
+      completed: true, completedAt: 12345 }
 ];
 
 // remove them all then insert two test records
@@ -149,5 +150,43 @@ describe('DELETE /todos/:id', () => {
       .end(done);
     });
 
+
+}); //end of describe
+
+
+describe('PATCH /todos/:id', () => {
+
+  // change text, set completed=true
+
+  it('should update a todo', (done) => {
+    var hexID = todos[1]._id.toHexString();
+    const newtext = "patched text";
+    request(app)
+      .patch(`/todos/${hexID}`)
+      .send({
+        completed: true,
+        text: newtext
+      })
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.todo.text).toBe(newtext);
+        expect(res.body.todo.completed).toBe(true);
+//
+      })
+      .end((err,res) => {
+        if (err) {
+          return done(err);
+          }
+    //       Todo.findById(hexID).then((todo) => {
+    //         // expect v21 = https://facebook.github.io/jest/docs/en/expect.html
+    //         expect(todo).toBeFalsy();
+    //       done();
+    //       }).catch((e) => done(e));
+      });
+  });
+
+  // set completed=true
+  // it('should clear completedAt when todo is not completed', (done) => {
+  // });
 
 }); //end of describe
