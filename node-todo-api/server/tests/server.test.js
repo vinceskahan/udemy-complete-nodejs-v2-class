@@ -171,18 +171,11 @@ describe('PATCH /todos/:id', () => {
       .expect((res) => {
         expect(res.body.todo.text).toBe(newtext);
         expect(res.body.todo.completed).toBe(true);
-//
+        // expect v21
+        expect(typeof res.body.todo.completedAt).toBe('number');
       })
-      .end((err,res) => {
-        if (err) {
-          return done(err);
-          }
-    //       Todo.findById(hexID).then((todo) => {
-    //         // expect v21 = https://facebook.github.io/jest/docs/en/expect.html
-    //         expect(todo).toBeFalsy();
-    //       done();
-    //       }).catch((e) => done(e));
-      });
+      .end(done);
+
   });
 
   // set completed=true
