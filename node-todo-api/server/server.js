@@ -9,6 +9,9 @@ var {User} = require('./models/user');
 
 var app = express();
 
+//set up for heroku or localhost failsafe
+const port = process.env.PORT || 3000;
+
 app.use(bodyParser.json());
 
 // POST
@@ -58,8 +61,8 @@ app.get('/todos/:id', (req,res) => {
 });
 
 // start up the server
-app.listen(3000, () => {
-  console.log('started on port 3000');
+app.listen(port, () => {
+  console.log(`started on port ${port}`);
 });
 
 module.exports = {app};
