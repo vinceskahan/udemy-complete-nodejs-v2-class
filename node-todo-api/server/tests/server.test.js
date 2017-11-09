@@ -77,6 +77,7 @@ describe('GET /todos', () => {
 }); // end of describe GET
 
 describe('GET /todos/:id', () => {
+
   it('should get a valid todo', (done) => {
     request(app)
       .get(`/todos/${todos[0]._id.toHexString()}`)
@@ -86,5 +87,23 @@ describe('GET /todos/:id', () => {
       })
       .end(done);
   }); //end of .it
+
+  //challenge
+    //
+  it('should return 404 if not found', (done) => {
+    request(app)
+      // this is a valid id not in the db
+      .get('/todos/5a0383843411dec8993435f2')
+      .expect(404)
+      .end(done);
+  });
+
+  it('should return 404 for non-object ids', (done) => {
+    // id=123 is not a valid mongo id
+    request(app)
+      .get('/todos/123')
+      .expect(404)
+      .end(done);
+    });
 
 }); // end of describe GET
