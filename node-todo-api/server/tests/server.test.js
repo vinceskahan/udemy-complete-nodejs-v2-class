@@ -88,12 +88,11 @@ describe('GET /todos/:id', () => {
       .end(done);
   }); //end of .it
 
-  //challenge
-    //
+  // challenge below here
   it('should return 404 if not found', (done) => {
+    var hexId = new ObjectID().toHexString();
     request(app)
-      // this is a valid id not in the db
-      .get('/todos/5a0383843411dec8993435f2')
+      .get(`/todos/${hexId}`)
       .expect(404)
       .end(done);
   });
