@@ -178,7 +178,6 @@ describe('PATCH /todos/:id', () => {
 
   });
 
-
   it('should clear completedAt when todo is not completed', (done) => {
     var hexID = todos[1]._id.toHexString();
     const newtext = "patched text2";
