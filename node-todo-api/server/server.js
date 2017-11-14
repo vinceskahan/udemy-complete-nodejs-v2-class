@@ -31,8 +31,8 @@ app.post('/todos', (req,res) => {
 app.post('/users', (req,res) => {
   var body = _.pick(req.body,['user','email']);
   var user = new Users(body);
-  user.save().then((doc) => {
-    res.send(doc);
+  user.save().then((user) => {
+    res.send(user);
   }, (e) => {
     res.status(400).send(e);
   })
