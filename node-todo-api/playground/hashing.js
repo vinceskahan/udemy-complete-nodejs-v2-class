@@ -3,10 +3,18 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 var password = '123abc!';
-bcrypt.genSalt(10,(err,salt) => {
-  bcrypt.hash(password,salt,(err,hash) => {
-    console.log(hash);
-  });
+// --- this generates the hashedPassword below
+//
+// bcrypt.genSalt(10,(err,salt) => {
+//   bcrypt.hash(password,salt,(err,hash) => {
+//     console.log(hash);
+//   });
+// });
+
+// --- this returns true/false on match checks
+var hashedPassword = '$2a$10$qUrnAuxyZsQjVMOW0SCVPeV8hoJuuQE708iZcKq2ahIQ7ISJsRlOq';
+bcrypt.compare(password,hashedPassword,(err,res) => {
+  console.log(res);
 });
 
 // // see https://jwt.io for tools to encode/decode interactively
