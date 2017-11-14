@@ -31,10 +31,13 @@ app.post('/todos', (req,res) => {
 // POST /users
 app.post('/users', (req,res) => {
   var body = _.pick(req.body,['user','email']);
-  var user = new Users(body);
-  user.save().then((user) => {
-    res.send(user);
-  }, (e) => {
+  var user = new User(body);
+
+  user.save().then(() => {
+    user.generateAuthToken();
+  }.then((token) => {
+    res.header('x-auth',token).send(user);
+  }), (e) => {
     res.status(400).send(e);
   })
 });
