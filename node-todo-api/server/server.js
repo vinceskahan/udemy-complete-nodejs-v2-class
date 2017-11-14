@@ -36,10 +36,22 @@ app.post('/users', (req,res) => {
   user.save().then(() => {
     user.generateAuthToken();
   }.then((token) => {
+    // if the token was generated
     res.header('x-auth',token).send(user);
   }), (e) => {
     res.status(400).send(e);
   })
+});
+
+// private route to GET my user info specificatlly
+app.get('/users/me', (req,res) => {
+  var token = req.header('x-auth');
+  User.findByToken(token).then((user) => {
+    if (!user) {
+      // didn't find a match
+    }
+    res.send(user);
+  });
 });
 
 // GET
