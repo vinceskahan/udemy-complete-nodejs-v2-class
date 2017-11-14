@@ -58,14 +58,20 @@ UserSchema.methods.generateAuthToken = function () {
 
 UserSchema.pre('save', function (next) {
     var user = this;
-    // check if password was modified
+
     if (user.isModified('password')) {
-      // user.hashedPassword
-      // user.password = hash;
-      // next();
-      
+
+      bcrypt.genSalt(10,(err,salt) => {
+        // salt created ok
+        bcrypt.hash(user.password,salt,(err,hash) => {
+          user.password = hash;
+          next();
+        }).then(err) {
+          console.log(err);
+        };
+
     } else {
-      next();    // move on
+      next();    // not changed, so move on
     }
 });
 
