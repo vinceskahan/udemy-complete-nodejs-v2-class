@@ -27,6 +27,17 @@ app.post('/todos', (req,res) => {
   })
 });
 
+// POST /users
+app.post('/users', (req,res) => {
+  var body = _.pick(req.body,['user','email']);
+  var user = new Users(body);
+  todo.save().then((doc) => {
+    res.send(doc);
+  }, (e) => {
+    res.status(400).send(e);
+  })
+});
+
 // GET
 app.get('/todos', (req,res) => {
   Todo.find().then((todos) => {
