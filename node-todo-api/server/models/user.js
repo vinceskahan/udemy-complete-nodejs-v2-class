@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
+const _ = require('lodash');
 
 var UserSchema = new mongoose.Schema({
   email: {
@@ -31,6 +32,17 @@ var UserSchema = new mongoose.Schema({
     }
   }]
 });
+
+
+// override defaults to not return 'all' info
+// when mongoose model is converted to JSON
+UserSchema.methods.toJSON = function () => {
+  var user = this;
+  var userObject = user.toObject();
+
+  // only return 'some' items in response body
+  return _.pick(userObject, ['_id', 'email']);
+};
 
 // need a 'this' keyboard so we need a non-arrow function
 UserSchema.methods.generateAuthToken = function () {
