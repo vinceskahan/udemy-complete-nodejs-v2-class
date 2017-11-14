@@ -43,7 +43,6 @@ app.post('/users', (req,res) => {
   })
 });
 
-
 // private route to GET my user info specifically
 app.get('/users/me', authenticate, (req,res) => {
   res.send(req.user);
