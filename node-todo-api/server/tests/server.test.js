@@ -159,7 +159,7 @@ describe('PATCH /todos/:id', () => {
   // change text, set completed=true
 
   it('should update a todo', (done) => {
-    var hexID = todos[1]._id.toHexString();
+    var hexID = todos[0]._id.toHexString();
     const newtext = "patched text";
     request(app)
       .patch(`/todos/${hexID}`)
@@ -171,22 +171,30 @@ describe('PATCH /todos/:id', () => {
       .expect((res) => {
         expect(res.body.todo.text).toBe(newtext);
         expect(res.body.todo.completed).toBe(true);
-//
+        // expect v21
+        expect(typeof res.body.todo.completedAt).toBe('number');
       })
-      .end((err,res) => {
-        if (err) {
-          return done(err);
-          }
-    //       Todo.findById(hexID).then((todo) => {
-    //         // expect v21 = https://facebook.github.io/jest/docs/en/expect.html
-    //         expect(todo).toBeFalsy();
-    //       done();
-    //       }).catch((e) => done(e));
-      });
+      .end(done);
+
   });
 
-  // set completed=true
-  // it('should clear completedAt when todo is not completed', (done) => {
-  // });
+  it('should clear completedAt when todo is not completed', (done) => {
+    var hexID = todos[1]._id.toHexString();
+    const newtext = "patched text2";
+    request(app)
+      .patch(`/todos/${hexID}`)
+      .send({
+        completed: false,
+        text: newtext
+      })
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.todo.text).toBe(newtext);
+        expect(res.body.todo.completed).toBe(false);
+        // expect v21
+        expect(res.body.todo.completedAt).toBeFalsy();
+      })
+      .end(done);
+  });
 
 }); //end of describe
