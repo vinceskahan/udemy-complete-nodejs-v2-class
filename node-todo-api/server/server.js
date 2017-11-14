@@ -51,6 +51,8 @@ app.get('/users/me', (req,res) => {
       // didn't find a match
     }
     res.send(user);
+  }).catch((e) => {
+    res.status(401).send();    // auth required status code
   });
 });
 

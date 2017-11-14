@@ -62,7 +62,9 @@ UserSchema.statics.findByToken = function (token) {
   try {
     decoded = jwt.verify(token, 'abc123');
   } catch (e) {
-    //we'll catch them later
+    return new Promise((resolve,reject) => {
+      reject();
+    });
   }
 
   // success of try/catch
