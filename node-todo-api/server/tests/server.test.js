@@ -4,19 +4,9 @@ const {ObjectID} = require('mongodb');
 
 const {app} = require('./../server');
 const {Todo} = require('./../models/todo');
+const {todos, populateTodos} = require('./seed/seed');
 
-const todos = [
-  { _id: new ObjectID(), text: "test item 1" },
-  { _id: new ObjectID(), text: "test item 2",
-      completed: true, completedAt: 12345 }
-];
-
-// remove them all then insert two test records
-beforeEach((done) => {
-  Todo.remove({}).then(() => {
-    return Todo.insertMany(todos);
-  }).then (() => done());
-});
+beforeEach(populateTodos);
 
 //------ POST tests --------
 
