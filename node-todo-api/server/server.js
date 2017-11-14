@@ -48,7 +48,8 @@ app.get('/users/me', (req,res) => {
   var token = req.header('x-auth');
   User.findByToken(token).then((user) => {
     if (!user) {
-      // didn't find a match
+      // run the error case here to be DRYer
+      return Promise.reject();
     }
     res.send(user);
   }).catch((e) => {
