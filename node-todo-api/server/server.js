@@ -8,7 +8,7 @@ const {ObjectID} = require('mongodb');
 var {mongoose} = require('./db/mongoose');
 var {Todo} = require('./models/todo');
 var {User} = require('./models/user');
-
+var {authenticate} = require('./middleware/authenticate');
 
 var app = express();
 
@@ -43,21 +43,6 @@ app.post('/users', (req,res) => {
   })
 });
 
-var authenticate = (req,res,next) => {
-  var token = req.header('x-auth');
-  User.findByToken(token).then((user) => {
-    if (!user) {
-      // run the error case here to be DRYer
-      return Promise.reject();
-    }
-    //modify req object
-    req.user = user;
-    req.token = token;
-    next();   // so the req.send in get users/me executes
-  }).catch((e) => {
-    res.status(401).send();    // auth required status code
-  });
-};
 
 // private route to GET my user info specifically
 app.get('/users/me', authenticate, (req,res) => {
