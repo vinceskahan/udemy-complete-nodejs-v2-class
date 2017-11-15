@@ -237,7 +237,20 @@ describe('POST /users', () => {
         expect(res.body._id).toBeTruthy();
         expect(res.body.email).toBe(email);
       })
-      .end(done);
+      .end((err) => {
+        if (err) {
+            return done(err);
+        }
+        // get the user with that isEmail
+        // expect them to be found
+        // expect their email to not match the cleartext
+        //    (ie, to have been hashed)
+        User.findOne({email}).then((user) => {
+          expect(user).toBeTruthy();
+          expect(user.password).not.toBe(password);
+          done();
+        });
+      });
   });
 
   // it('should return validation errors if request invalid', (done) => {
