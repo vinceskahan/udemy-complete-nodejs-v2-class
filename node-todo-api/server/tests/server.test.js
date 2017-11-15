@@ -213,6 +213,11 @@ describe('GET /users/me', () => {
     request(app)
       .get('/users/me')
       .expect(401)
+      .expect((res) => {
+        expect(res.body).toBe(null);
+        // expect v21
+        //expect(res.body.todo.completedAt).toBeFalsy();
+      })
       .end(done);
   });
 
