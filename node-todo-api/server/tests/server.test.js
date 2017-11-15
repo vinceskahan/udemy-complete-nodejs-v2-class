@@ -241,9 +241,10 @@ describe('POST /users', () => {
         if (err) {
             return done(err);
         }
-        // get the user with that isEmail
-        // expect them to be found
-        // expect their email to not match the cleartext
+        // validate the contents of the created user
+        // - get the user with that isEmail
+        // - expect them to be found
+        // - expect their email to not match the cleartext
         //    (ie, to have been hashed)
         User.findOne({email}).then((user) => {
           expect(user).toBeTruthy();
@@ -253,10 +254,24 @@ describe('POST /users', () => {
       });
   });
 
-  // it('should return validation errors if request invalid', (done) => {
-  // });
-  //
-  // it('should not create user if email in use', (done) => {
-  // });
+  it('should return validation errors if request invalid', (done) => {
+    var email = 'e';    // too short
+    var password = 'm'; // too short
+    request(app)
+      .post('/users')
+      .send({email,password})
+      .expect(400)
+      .end(done);
+  });
+
+  it('should not create user if email in use', (done) => {
+    var email = users[0].email;  // in the db
+    var password = 'mypasshere'; // used above
+    request(app)
+      .post('/users')
+      .send({email,password})
+      .expect(400)
+      .end(done);
+    });
 
 }); //end of describe
