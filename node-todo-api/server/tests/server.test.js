@@ -221,4 +221,29 @@ describe('GET /users/me', () => {
       .end(done);
   });
 
-});
+}); //end of describe
+
+describe('POST /users', () => {
+
+  it('should create a user', (done) => {
+    var email = 'example@example.com';
+    var password = 'mypass';
+    request(app)
+      .post('/users')
+      .send({email,password})
+      .expect(200)
+      .expect((res) => {
+        expect(res.headers['x-auth']).toBeTruthy();
+        expect(res.body._id).toBeTruthy();
+        expect(res.body.email).toBe(email);
+      })
+      .end(done);
+  });
+
+  // it('should return validation errors if request invalid', (done) => {
+  // });
+  //
+  // it('should not create user if email in use', (done) => {
+  // });
+
+}); //end of describe
