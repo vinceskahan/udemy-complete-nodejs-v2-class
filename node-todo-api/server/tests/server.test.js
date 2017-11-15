@@ -214,7 +214,7 @@ describe('GET /users/me', () => {
       .get('/users/me')
       .expect(401)
       .expect((res) => {
-        expect(res.body).toBe(null);
+        expect(res.body).toBe("");
         // expect v21
         //expect(res.body.todo.completedAt).toBeFalsy();
       })
