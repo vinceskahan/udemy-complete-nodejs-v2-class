@@ -192,3 +192,28 @@ describe('PATCH /todos/:id', () => {
   });
 
 }); //end of describe
+
+describe('GET /users/me', () => {
+
+  it('should return a user if authenticated', (done) => {
+    request(app)
+      .get('/users/me')
+      .set('x-auth', users[0].tokens[0].token)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body._id).toBe(users[0]._id.toHexString());
+        expect(res.body.email).toBe(users[0].email);
+        // expect v21
+        //expect(res.body.todo.completedAt).toBeFalsy();
+      })
+      .end(done);
+  });
+
+  it('should return 401 if not authenticated', (done) => {
+    request(app)
+      .get('/users/me')
+      .expect(401)
+      .end(done);
+  });
+
+});
