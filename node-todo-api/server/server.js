@@ -118,13 +118,7 @@ app.get('/users/me', authenticate, (req, res) => {
 // POST /users/login { email, password }
 app.post('/users/login', (req, res) => {
   var body = _.pick(req.body, ['email', 'password']);
-  var user = new User(body);
-  user.save().then(() => {
-    return res.send(res.body);
-  }).catch((e) => {
-    res.status(400).send(e);
-  })
-
+  res.send(body);
 });
 
 
