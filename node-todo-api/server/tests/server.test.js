@@ -11,9 +11,10 @@ const {todos, populateTodos,  users, populateUsers} = require('./seed/seed');
 beforeEach(populateUsers);
 beforeEach(populateTodos);
 
-//
-// //------ POST tests --------
-//
+
+
+//--------------- users ----------------
+// 
 // describe('POST /todos', () => {
 //
 //   it('should create a new todo', (done) => {
@@ -55,9 +56,6 @@ beforeEach(populateTodos);
 //   }); // end of it
 // });   // end of describe POST
 //
-//
-// //------ GET tests --------
-//
 // describe('GET /todos', () => {
 //
 //   it('should get all todos', (done) => {
@@ -83,7 +81,6 @@ beforeEach(populateTodos);
 //       .end(done);
 //   }); //end of .it
 //
-//   // challenge below here
 //   it('should return 404 if not found', (done) => {
 //     var hexId = new ObjectID().toHexString();
 //     request(app)
@@ -122,8 +119,9 @@ beforeEach(populateTodos);
 //           }
 //           Todo.findById(hexID).then((todo) => {
 //             // expect v21 = https://facebook.github.io/jest/docs/en/expect.html
-//             expect(todo).toBeFalsy();
-//           done();
+//             // old was expect(todo).toExist();
+//             expect(todo).toBeTruthy();
+//             done();
 //           }).catch((e) => done(e));
 //         });
 //   });
@@ -186,43 +184,44 @@ beforeEach(populateTodos);
 //         expect(res.body.todo.text).toBe(newtext);
 //         expect(res.body.todo.completed).toBe(false);
 //         // expect v21
+//         // was toNotExist
 //         expect(res.body.todo.completedAt).toBeFalsy();
 //       })
 //       .end(done);
 //   });
 //
 // }); //end of describe
-//
-// describe('GET /users/me', () => {
-//
-//   it('should return a user if authenticated', (done) => {
-//     request(app)
-//       .get('/users/me')
-//       .set('x-auth', users[0].tokens[0].token)
-//       .expect(200)
-//       .expect((res) => {
-//         expect(res.body._id).toBe(users[0]._id.toHexString());
-//         expect(res.body.email).toBe(users[0].email);
-//         // expect v21
-//         //expect(res.body.todo.completedAt).toBeFalsy();
-//       })
-//       .end(done);
-//   });
-//
-//   it('should return 401 if not authenticated', (done) => {
-//     request(app)
-//       .get('/users/me')
-//       .expect(401)
-//       .expect((res) => {
-//         expect(res.body).toEqual({});
-//         // expect v21
-//         //expect(res.body.todo.completedAt).toBeFalsy();
-//       })
-//       .end(done);
-//   });
-//
-// }); //end of describe
-//
+
+// ------- users ---------------------------
+
+describe('GET /users/me', () => {
+
+  it('should return a user if authenticated', (done) => {
+    request(app)
+      .get('/users/me')
+      .set('x-auth', users[0].tokens[0].token)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body._id).toBe(users[0]._id.toHexString());
+        expect(res.body.email).toBe(users[0].email);
+        // expect v21
+        //expect(res.body.todo.completedAt).toBeFalsy();
+      })
+      .end(done);
+  });
+
+  it('should return 401 if not authenticated', (done) => {
+    request(app)
+      .get('/users/me')
+      .expect(401)
+      .expect((res) => {
+        expect(res.body).toEqual({});
+      })
+      .end(done);
+  });
+
+}); //end of describe
+
 describe('POST /users', () => {
 
   it('should create a user', (done) => {
@@ -233,8 +232,8 @@ describe('POST /users', () => {
       .send({email,password})
       .expect(200)
       .expect((res) => {
-        expect(res.headers['x-auth']).toBeDefined();
-        expect(res.body._id).toBeDefined();
+        expect(res.headers['x-auth']).toBeTruthy();
+        expect(res.body._id).toBeTruthy();
         expect(res.body.email).toBe(email);
       })
       .end((err) => {
@@ -287,8 +286,7 @@ describe('POST /users/login', () => {
       })
       .expect(200)
       .expect((res) => {
-        console.log(res.headers);
-        expect(res.headers['x-auth']).toBeDefined();
+        expect(res.headers['x-auth']).toBeTruthy();
       })
       .end((err,res) => {
         if (err) {
@@ -296,18 +294,36 @@ describe('POST /users/login', () => {
         }
         User.findById(users[1]._id).then((user) => {
           // expect(user.tokens[0]).toInclude({
-          //   access: 'auth',
-          //   token: res.headers['x-auth']
-          // });
-          //expect(user.tokens[0]).toHaveProperty('access', 'auth');
-      //    expect(user.tokens[1]).toHaveProperty('token', "res.headers['x-auth']");
+          expect(user.toObject.tokens[1]).toMatchObject({
+            access: 'auth',
+            token: res.headers['x-auth']
+          });
           done();
         }).catch((e) => done(e));
       });
   });
 
-  // it('should reject invalid login', (done) => {
-  //
-  // });
+  it('should reject invalid login', (done) => {
+    request(app)
+      .post('/users/login')
+      .send({
+        email: users[1].email,
+        password: users[1].password
+      })
+      .expect(400)
+      .expect((res) => {
+        expect(res.headers['x-auth']).toBeFalsy();
+      })
+      .end((err,res) => {
+        if (err) {
+          return done(err);
+        }
+        User.findById(users[1]._id).then((user) => {
+          // expect(user.tokens[0]).toInclude({
+          expect(user.toObject.tokens[1]).toMatchObject();
+          done();
+        }).catch((e) => done(e));
+      });
+  });
 
 });
