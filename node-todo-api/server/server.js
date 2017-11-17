@@ -20,7 +20,9 @@ app.post('/todos', (req, res) => {
     text: req.body.text
   });
 
+  // actually save to the db
   todo.save().then((doc) => {
+    // if it saved send the doc back
     res.send(doc);
   }, (e) => {
     res.status(400).send(e);
@@ -28,7 +30,9 @@ app.post('/todos', (req, res) => {
 });
 
 app.get('/todos', (req, res) => {
+  // find all the todos
   Todo.find().then((todos) => {
+    // and send them back
     res.send({todos});
   }, (e) => {
     res.status(400).send(e);
@@ -38,15 +42,17 @@ app.get('/todos', (req, res) => {
 app.get('/todos/:id', (req, res) => {
   var id = req.params.id;
 
+  // make sure the id is valid
   if (!ObjectID.isValid(id)) {
     return res.status(404).send();
   }
 
+  // find that id in the db
   Todo.findById(id).then((todo) => {
     if (!todo) {
       return res.status(404).send();
     }
-
+    // and send it back
     res.send({todo});
   }).catch((e) => {
     res.status(400).send();
@@ -56,15 +62,20 @@ app.get('/todos/:id', (req, res) => {
 app.delete('/todos/:id', (req, res) => {
   var id = req.params.id;
 
+  // make sure the id is valid
   if (!ObjectID.isValid(id)) {
     return res.status(404).send();
   }
 
+  // find by id and remove it from the db, returning the text removed
   Todo.findByIdAndRemove(id).then((todo) => {
+
+    // if no matching record found
     if (!todo) {
       return res.status(404).send();
     }
 
+    // found it, return the todo
     res.send({todo});
   }).catch((e) => {
     res.status(400).send();
@@ -73,12 +84,15 @@ app.delete('/todos/:id', (req, res) => {
 
 app.patch('/todos/:id', (req, res) => {
   var id = req.params.id;
+  // just work with what we need
   var body = _.pick(req.body, ['text', 'completed']);
 
+  // make sure the id exists
   if (!ObjectID.isValid(id)) {
     return res.status(404).send();
   }
 
+  // clean up completedAt depending on true/false of completed
   if (_.isBoolean(body.completed) && body.completed) {
     body.completedAt = new Date().getTime();
   } else {
@@ -86,27 +100,30 @@ app.patch('/todos/:id', (req, res) => {
     body.completedAt = null;
   }
 
+  // actually save it to the db
   Todo.findByIdAndUpdate(id, {$set: body}, {new: true}).then((todo) => {
     if (!todo) {
       return res.status(404).send();
     }
-
     res.send({todo});
   }).catch((e) => {
     res.status(400).send();
   })
 });
 
-// POST /users
 app.post('/users', (req, res) => {
+  // just work with what we need
   var body = _.pick(req.body, ['email', 'password']);
   var user = new User(body);
 
   user.save().then(() => {
+    // generate and return their auth token
     return user.generateAuthToken();
   }).then((token) => {
+    // and stick it in the header
     res.header('x-auth', token).send(user);
   }).catch((e) => {
+    // on failure return 400 with the error
     res.status(400).send(e);
   })
 });
@@ -115,9 +132,19 @@ app.get('/users/me', authenticate, (req, res) => {
   res.send(req.user);
 });
 
-// POST /users/login { email, password }
+
 app.post('/users/login', (req, res) => {
+  // just work with what we need
   var body = _.pick(req.body, ['email', 'password']);
+
+  User.findByCredentials(body.email,body.password).then((user) => {
+    // user was found by findByCredentials
+    res.send(user);
+  }).catch((e) => {
+    // promise was rejected by findByCredentials
+    res.status(400).send();
+  });
+
   res.send(body);
 });
 

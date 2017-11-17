@@ -45,6 +45,7 @@ UserSchema.methods.toJSON = function () {
 UserSchema.methods.generateAuthToken = function () {
   var user = this;
   var access = 'auth';
+  // the salt shouldn't be here of course, nor stored in a VCS
   var token = jwt.sign({_id: user._id.toHexString(), access}, 'abc123').toString();
 
   user.tokens.push({access, token});
@@ -59,6 +60,7 @@ UserSchema.statics.findByToken = function (token) {
   var decoded;
 
   try {
+    // again, the salt shouldn't be here, nor stored in a VCS
     decoded = jwt.verify(token, 'abc123');
   } catch (e) {
     return Promise.reject();
@@ -71,6 +73,29 @@ UserSchema.statics.findByToken = function (token) {
   });
 };
 
+
+UserSchema.statics.findByCredentials = function (email,password) {
+  var User = this;
+
+  return User.findOne({email}).then((user) => {
+    if (!user) {
+      return Promise.reject();
+    }
+
+    return new Promise((resolve, reject) => {
+        bcrypt.compare(password,user.password,(err,res) => {
+          if (res) {
+            resolve(user);
+          } else {
+            reject();
+          }
+        });
+      });
+
+    });
+};
+
+// custom 'next' function
 UserSchema.pre('save', function (next) {
   var user = this;
 
