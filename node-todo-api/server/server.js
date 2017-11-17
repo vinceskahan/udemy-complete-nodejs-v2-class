@@ -138,8 +138,10 @@ app.post('/users/login', (req, res) => {
   var body = _.pick(req.body, ['email', 'password']);
 
   User.findByCredentials(body.email,body.password).then((user) => {
-    // user was found by findByCredentials
-    res.send(user);
+    return user.generateAuthToken().then((token) => {
+      // set header to newly generated token, send back response body
+      res.header('x-auth', token).send(user);
+    });
   }).catch((e) => {
     // promise was rejected by findByCredentials
     res.status(400).send();
