@@ -285,7 +285,7 @@ describe('POST /users/login', () => {
       .post('/users/login')
       .send({
         email: users[1].email,
-        password: users[1].password
+        password: users[1].password,
       })
       .expect(200)
       .expect((res) => {
@@ -297,7 +297,7 @@ describe('POST /users/login', () => {
           return done(err);
         }
         User.findById(users[1]._id).then((user) => {
-          expect(user.toObject().tokens[0]).toMatchObject({
+          expect(user.toObject().tokens[1]).toMatchObject({
             access: 'auth',
             token: res.headers['x-auth']
           });
@@ -325,7 +325,7 @@ describe('POST /users/login', () => {
         }
         User.findById(users[1]._id).then((user) => {
           // expect there to be no tokens for the user
-          expect(user.tokens.length).toBe(0);
+          expect(user.tokens.length).toBe(1);
           done();
         }).catch((e) => done(e));
       });
