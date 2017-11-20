@@ -42,7 +42,7 @@ app.get('/todos', authenticate, (req, res) => {
   });
 });
 
-app.get('/todos/:id', (req, res) => {
+app.get('/todos/:id', authenticate, (req, res) => {
   var id = req.params.id;
 
   // make sure the id is valid
@@ -50,8 +50,12 @@ app.get('/todos/:id', (req, res) => {
     return res.status(404).send();
   }
 
-  // find that id in the db
-  Todo.findById(id).then((todo) => {
+  // find that id in the db where their creator
+  // property matches the authenticated user
+  Todo.findOne({
+    _id: id,
+    _creator: req.user._id
+  }).then((todo) => {
     if (!todo) {
       return res.status(404).send();
     }

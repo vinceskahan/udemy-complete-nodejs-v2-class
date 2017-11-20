@@ -79,6 +79,7 @@ describe('GET /todos/:id', () => {
   it('should get a valid todo', (done) => {
     request(app)
       .get(`/todos/${todos[0]._id.toHexString()}`)
+      .set('x-auth', users[0].tokens[0].token)
       .expect(200)
       .expect((res) => {
         expect(res.body.todo.text).toBe(todos[0].text);
@@ -86,8 +87,10 @@ describe('GET /todos/:id', () => {
       .end(done);
   });
 
+  // we set x-auth to a seeded user, but test here for a bogus user
   it('should return 404 if not found', (done) => {
     var hexId = new ObjectID().toHexString();
+    .set('x-auth', users[0].tokens[0].token)
     request(app)
       .get(`/todos/${hexId}`)
       .expect(404)
