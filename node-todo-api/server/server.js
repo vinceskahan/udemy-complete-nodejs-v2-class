@@ -66,7 +66,7 @@ app.get('/todos/:id', authenticate, (req, res) => {
   });
 });
 
-app.delete('/todos/:id', (req, res) => {
+app.delete('/todos/:id', authenticate, (req, res) => {
   var id = req.params.id;
 
   // make sure the id is valid
@@ -75,7 +75,10 @@ app.delete('/todos/:id', (req, res) => {
   }
 
   // find by id and remove it from the db, returning the text removed
-  Todo.findByIdAndRemove(id).then((todo) => {
+  Todo.findOneAndRemove({
+    _id: id,
+    _creator: req.user._id
+  }).then((todo) => {
 
     // if no matching record found
     if (!todo) {

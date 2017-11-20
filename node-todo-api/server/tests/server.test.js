@@ -122,8 +122,10 @@ describe('DELETE /todos/:id', () => {
 
   it('should remove a todo', (done) => {
     var hexID = todos[1]._id.toHexString();
+
     request(app)
       .delete(`/todos/${hexID}`)
+      .set('x-auth', users[1].tokens[0].token)
       .expect(200)
       .expect((res) => {
         expect(res.body.todo._id).toBe(hexID);
@@ -141,18 +143,42 @@ describe('DELETE /todos/:id', () => {
         });
   });
 
+  it('should not remove a different user\'s todo', (done) => {
+    //delete the second user's id as the first user
+    var hexID = todos[0]._id.toHexString();
+
+    request(app)
+      .delete(`/todos/${hexID}`)
+      .set('x-auth', users[1].tokens[0].token)
+      .expect(404)
+      .end((err,res) => {
+          if (err) {
+            return done(err);
+          }
+          Todo.findById(hexID).then((todo) => {
+            // it's still there because we don't delete somebody else's todo(s)
+            expect(todo).toBeTruthy();
+            done();
+          }).catch((e) => done(e));
+        });
+  });
+
   it('should return 404 if todo not found', (done) => {
+      // bogus id, we'll look it up using users[1] auth token (will not find any)
       var hexId = new ObjectID().toHexString();
       request(app)
         .delete(`/todos/${hexId}`)
+        .set('x-auth', users[1].tokens[0].token)
         .expect(404)
         .end(done)
   });
 
   it('should return 404 for non-object ids', (done) => {
     // id=123 is not a valid mongo id
+    // set to users[1] token os we have something as auth is required
     request(app)
       .delete('/todos/123')
+      .set('x-auth', users[1].tokens[0].token)
       .expect(404)
       .end(done);
     });
