@@ -200,6 +200,7 @@ describe('PATCH /todos/:id', () => {
         completed: true,
         text: newtext
       })
+      .set('x-auth', users[0].tokens[0].token)
       .expect(200)
       .expect((res) => {
         expect(res.body.todo.text).toBe(newtext);
@@ -220,6 +221,7 @@ describe('PATCH /todos/:id', () => {
         completed: false,
         text: newtext
       })
+      .set('x-auth', users[1].tokens[0].token)
       .expect(200)
       .expect((res) => {
         expect(res.body.todo.text).toBe(newtext);
