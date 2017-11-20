@@ -15,9 +15,10 @@ const port = process.env.PORT;
 
 app.use(bodyParser.json());
 
-app.post('/todos', (req, res) => {
+app.post('/todos', authenticate, (req, res) => {
   var todo = new Todo({
-    text: req.body.text
+    text: req.body.text,
+    _creator: req.user._id
   });
 
   // actually save to the db
@@ -29,9 +30,11 @@ app.post('/todos', (req, res) => {
   });
 });
 
-app.get('/todos', (req, res) => {
-  // find all the todos
-  Todo.find().then((todos) => {
+app.get('/todos', authenticate, (req, res) => {
+  // find all the todos created by the authenticated user
+  Todo.find({
+    _creator: req.user._id
+  }).then((todos) => {
     // and send them back
     res.send({todos});
   }, (e) => {
