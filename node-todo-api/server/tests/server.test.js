@@ -11,9 +11,7 @@ const {todos, populateTodos,  users, populateUsers} = require('./seed/seed');
 beforeEach(populateUsers);
 beforeEach(populateTodos);
 
-
-
-//--------------- todos ----------------
+//-------------------------------------------------------------------
 
 describe('POST /todos', () => {
 
@@ -57,7 +55,9 @@ describe('POST /todos', () => {
       });
   });
 
-}); // end of describe
+});
+
+//-------------------------------------------------------------------
 
 describe('GET /todos', () => {
 
@@ -72,7 +72,10 @@ describe('GET /todos', () => {
       .end(done);
   });
 
-}); // end of describe
+});
+
+
+//-------------------------------------------------------------------
 
 describe('GET /todos/:id', () => {
 
@@ -114,9 +117,9 @@ describe('GET /todos/:id', () => {
       .end(done);
     });
 
-}); // end of describe GET
+});
 
-//---------------  DELETE tests --------------------
+//-------------------------------------------------------------------
 
 describe('DELETE /todos/:id', () => {
 
@@ -184,12 +187,11 @@ describe('DELETE /todos/:id', () => {
     });
 
 
-}); //end of describe
+});
 
+//-------------------------------------------------------------------
 
 describe('PATCH /todos/:id', () => {
-
-  // change text, set completed=true
 
   it('should update a todo', (done) => {
     var hexID = todos[0]._id.toHexString();
@@ -212,6 +214,22 @@ describe('PATCH /todos/:id', () => {
 
   });
 
+  // note we set x-auth to a different user's token value
+  it('should not update a different user\'s todo', (done) => {
+    var hexID = todos[0]._id.toHexString();
+    const newtext = "patched text";
+    request(app)
+      .patch(`/todos/${hexID}`)
+      .set('x-auth', users[1].tokens[0].token)
+      .send({
+        completed: true,
+        text: newtext
+      })
+      .expect(404)
+      .end(done);
+  });
+
+  // users[1] used here
   it('should clear completedAt when todo is not completed', (done) => {
     var hexID = todos[1]._id.toHexString();
     const newtext = "patched text2";
@@ -227,16 +245,16 @@ describe('PATCH /todos/:id', () => {
         expect(res.body.todo.text).toBe(newtext);
         expect(res.body.todo.completed).toBe(false);
         // expect v21
-        // was toNotExist
+        // was toNotExist in earlier expect
         expect(res.body.todo.completedAt).toBeFalsy();
       })
       .end(done);
   });
 
-}); //end of describe
+});
 
-// ------- users ---------------------------
-//
+//-------------------------------------------------------------------
+
 describe('GET /users/me', () => {
 
   it('should return a user if authenticated', (done) => {
@@ -263,7 +281,9 @@ describe('GET /users/me', () => {
       .end(done);
   });
 
-}); //end of describe
+});
+
+//-------------------------------------------------------------------
 
 describe('POST /users', () => {
 
@@ -317,6 +337,8 @@ describe('POST /users', () => {
     });
 
 });
+
+//-------------------------------------------------------------------
 
 describe('POST /users/login', () => {
 
@@ -373,10 +395,11 @@ describe('POST /users/login', () => {
 
 });
 
+//-------------------------------------------------------------------
+
 describe('DELETE /users/me/token', () => {
 
   it('should remove auth token on logout', (done) => {
-
     var token = users[0].tokens[0].token;
     request(app)
       .delete('/users/me/token')
@@ -392,8 +415,6 @@ describe('DELETE /users/me/token', () => {
            done();
       }).catch((e) => done(e));
     });
-
   });
-
 
 });
