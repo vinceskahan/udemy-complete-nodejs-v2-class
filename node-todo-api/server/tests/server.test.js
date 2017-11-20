@@ -87,12 +87,20 @@ describe('GET /todos/:id', () => {
       .end(done);
   });
 
+  it('should not return a different user\'s todos', (done) => {
+    request(app)
+      .get(`/todos/${todos[1]._id.toHexString()}`)
+      .set('x-auth', users[0].tokens[0].token)
+      .expect(404)
+      .end(done);
+  });
+
   // we set x-auth to a seeded user, but test here for a bogus user
   it('should return 404 if not found', (done) => {
     var hexId = new ObjectID().toHexString();
-    .set('x-auth', users[0].tokens[0].token)
     request(app)
       .get(`/todos/${hexId}`)
+      .set('x-auth', users[0].tokens[0].token)
       .expect(404)
       .end(done);
   });
@@ -101,6 +109,7 @@ describe('GET /todos/:id', () => {
     // id=123 is an invalid mongo id
     request(app)
       .get('/todos/123')
+      .set('x-auth', users[0].tokens[0].token)
       .expect(404)
       .end(done);
     });

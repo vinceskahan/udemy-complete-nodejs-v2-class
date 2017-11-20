@@ -50,7 +50,7 @@ app.get('/todos/:id', authenticate, (req, res) => {
     return res.status(404).send();
   }
 
-  // find that id in the db where their creator
+  // find todo(s) in the db where their creator
   // property matches the authenticated user
   Todo.findOne({
     _id: id,
