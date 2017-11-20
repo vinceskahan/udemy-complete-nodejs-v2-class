@@ -109,7 +109,9 @@ UserSchema.pre('save', function (next) {
   } else {
     next();
   }
-});
+}
+
+);
 
 var User = mongoose.model('User', UserSchema);
 
