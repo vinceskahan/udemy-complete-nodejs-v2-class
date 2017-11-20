@@ -46,7 +46,7 @@ UserSchema.methods.generateAuthToken = function () {
   var user = this;
   var access = 'auth';
   // the salt shouldn't be here of course, nor stored in a VCS
-  var token = jwt.sign({_id: user._id.toHexString(), access}, 'abc123').toString();
+  var token = jwt.sign({_id: user._id.toHexString(), access}, process.env.JWT_SECRET).toString();
 
   user.tokens.push({access, token});
 
@@ -73,7 +73,7 @@ UserSchema.statics.findByToken = function (token) {
 
   try {
     // again, the salt shouldn't be here, nor stored in a VCS
-    decoded = jwt.verify(token, 'abc123');
+    decoded = jwt.verify(token, process.env.JWT_SECRET);
   } catch (e) {
     return Promise.reject();
   }

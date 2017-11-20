@@ -4,3 +4,7 @@ server.log
 mongo
 mongo-data
 run-mongo
+#
+# this should be in .gitignore of course in a real project
+# ==> config.json
+#
