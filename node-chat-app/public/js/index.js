@@ -7,7 +7,7 @@ socket.on('connect', function () {
   // create email event from client to server, with data after connect
   socket.emit('createEmail', {
     to: 'jen@example.com',
-    text: 'hey, this is me'
+    text: 'createEmail from client'
   });
 
 });
@@ -19,4 +19,12 @@ socket.on('disconnect', function () {
 // custom event from server to client
 socket.on('newEmail', function (email) {
   console.log('New email',email);
+});
+
+socket.on('newMessage', function (message) {
+  console.log('New message',message);
+  socket.emit('createMessage', {
+    to: 'me@example.com',
+    text: 'createMessage from newMessage from client'
+  });
 });
