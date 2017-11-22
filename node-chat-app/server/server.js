@@ -22,12 +22,8 @@ io.on('connection', (socket) => {
     createdAt: 123
   });
 
-  socket.on('createEmail', (newEmail) => {
-    console.log('createEmail', newEmail);
-  });
-
-  socket.on('createMessage', (newMessage) => {
-      console.log('createMessage', newMessage);
+  socket.on('createMessage', (message) => {
+      console.log('createMessage', message);
     });
 
   socket.on('disconnect', (socket) => {
