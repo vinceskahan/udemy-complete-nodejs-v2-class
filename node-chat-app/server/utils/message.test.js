@@ -13,9 +13,12 @@ describe('generateMessage', () => {
 
     const from = "me@example.com";
     const text = "message here";
-    var message = generateMessage(from,message);
+    var message = generateMessage(from,text);
+    // old expect syntax
+    //    expect(message).toInclude({from,text});
     expect(message.from === from);
     expect(message.text === text);
+    expect(typeof message.createdAt).toBe('number');
   });
 
 
