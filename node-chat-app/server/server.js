@@ -12,18 +12,25 @@ var io = socketIO(server);
 
 app.use(express.static(publicPath));
 
-// register listener
 io.on('connection', (socket) => {
   console.log('new user connected');
 
-  socket.emit('newMessage', {
-    from: 'myserver@example.com',
-    text: 'New message from server',
-    createdAt: 123
-  });
+  // ---- emit to a single connection
+  // socket.emit('newMessage', {
+  //   from: 'myserver@example.com',
+  //   text: 'New message from server',
+  //   createdAt: 123
+  // });
 
+  // createMessage listener
   socket.on('createMessage', (message) => {
       console.log('createMessage', message);
+      // emit to all connections
+      io.emit('newMessage', {
+        from: message.from,
+        text: message.text,
+        createAt: new Date().getTime()
+      });
     });
 
   socket.on('disconnect', (socket) => {

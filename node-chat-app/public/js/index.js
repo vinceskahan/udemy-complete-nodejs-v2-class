@@ -4,10 +4,11 @@ var socket = io();
 socket.on('connect', function () {
   console.log('connected to server');
 
-  socket.emit('createMessage', {
-    from: 'me@example.com',
-    text: 'createMessage from newMessage from client'
-  });
+  //--- emit for single-connection listener in server.js
+  // socket.emit('createMessage', {
+  //   from: 'me@example.com',
+  //   text: 'createMessage from newMessage from client'
+  // });
 
 });
 
