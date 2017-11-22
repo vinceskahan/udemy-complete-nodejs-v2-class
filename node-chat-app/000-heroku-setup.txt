@@ -12,9 +12,18 @@
 #
 #  # cd into the subdir containing package.json
   heroku create
+
+# you get a treeish back, add it as the remote with
+
+  git init .
   git add .
   git commit -am 'add heroku here'
+#### git remote add heroku https://something/whatever.git
   git push --set-upstream heroku master
 
   # open in a browser
   heroku open
+
+# to delete all apps,
+#
+# for app in `heroku apps | grep -v vince | grep -v "^$"`; do heroku apps:destroy $app --confirm $app; done
