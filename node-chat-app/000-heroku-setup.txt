@@ -1,16 +1,16 @@
-Setting up for heroku
-=====================
- - heroku is odd, you need a .git tree and package.json in the root of the project,
-   making having one github repo for multiple projects problematic.
- - simplest way is to git init 'in' the project subdir and track it twice (ugly)
-   meaning you need to take special care in your 'many project' parent tree .gitignore
- - you also have to commit twice and carefully:
-     cd into the dir to commit to heroku
-     but remember to cd .. to commit this (with other projects) to github
-
-Heroku init steps are as follows
-
-  # cd into the subdir containing package.json
+# Setting up for heroku
+# =====================
+# - heroku is odd, you need a .git tree and package.json in the root of the project,
+#   making having one github repo for multiple projects problematic.
+# - simplest way is to git init 'in' the project subdir and track it twice (ugly)
+#   meaning you need to take special care in your 'many project' parent tree .gitignore
+# - you also have to commit twice and carefully:
+#     cd into the dir to commit to heroku
+#     but remember to cd .. to commit this (with other projects) to github
+#
+# Heroku init steps are as follows
+#
+#  # cd into the subdir containing package.json
   heroku create
   git add .
   git commit -am 'add heroku here'
