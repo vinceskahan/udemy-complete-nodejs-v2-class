@@ -30,10 +30,12 @@ io.on('connection', (socket) => {
   socket.broadcast.emit('newMessage', generateMessage('admin','new user joined'));
 
   // createMessage listener
-  socket.on('createMessage', (message) => {
-      console.log('createMessage', message);
+  socket.on('createMessage', (message, callback) => {
+      console.log('createMessage received:', message);
       // emit to all connections
-      io.emit('newMessage', generateMessage(message.from,message.text));
+      io.emit('newMessage emitted:', generateMessage(message.from,message.text));
+      // ack from server to frontend
+      callback('this is from the server');
 
     // emit to everybody 'except' ourselves
               // socket.broadcast.emit('newMessage', {
@@ -42,7 +44,7 @@ io.on('connection', (socket) => {
               //   createdAt: new Date().getTime()
               // });
 
-    });
+  });
 
   socket.on('disconnect', (socket) => {
     console.log('new user disconnected');
