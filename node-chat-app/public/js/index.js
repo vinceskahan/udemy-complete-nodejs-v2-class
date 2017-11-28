@@ -33,16 +33,13 @@ locationButton.on('click', function () {
   if (!navigator.geolocation) {
     return alert('Geolocation not supported by your browser.');
   }
-
-navigator.geolocation.getCurrentPosition(function (position) {
-  console.log(position)
-}).catch((e) => {
-  console.log('error: ', e);
-}, {
-  // needed for chrome on windows7 it seems
-  enableHighAccuracy: true
-});
-
+  navigator.geolocation.getCurrentPosition(function (position) {
+    console.log(position);
+  }, function (error) {  
+  },{
+    enableHighAccuracy: true
+  });
+});s
   // navigator.geolocation.getCurrentPosition(function (position) {
   //   // socket.emit('createLocationMessage', {
   //   //   latitude: position.coords.latitude,
@@ -51,4 +48,3 @@ navigator.geolocation.getCurrentPosition(function (position) {
   // }, function () {
   //   alert('Unable to fetch location.');
   // });
-});
