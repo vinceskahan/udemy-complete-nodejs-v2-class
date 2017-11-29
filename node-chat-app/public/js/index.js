@@ -50,11 +50,11 @@ locationButton.on('click', function () {
   }
 
   // disable button while waiting for response
-  locationButton.attr('disabled', 'disabled');
+  locationButton.attr('disabled', 'disabled').text('Sending location...');
 
   navigator.geolocation.getCurrentPosition(function (position) {
     // re-enable button
-    locationButton.removeAttr('disabled');
+    locationButton.removeAttr('disabled').text('Send location');
     // console.log(`console log: lat=${position.coords.latitude} lon=${position.coords.longitude}`)
     socket.emit('createLocationMessage', {
       latitude: position.coords.latitude,
@@ -62,7 +62,7 @@ locationButton.on('click', function () {
     });
   }, function () {
     // re-enable button
-      locationButton.removeAttr('disabled');
+      locationButton.removeAttr('disabled').text('Send location');
       alert('unable to fetch location');
   },{
     // needed it seems for some browsers and operating systems
