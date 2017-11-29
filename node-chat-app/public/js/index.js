@@ -49,13 +49,20 @@ locationButton.on('click', function () {
     return alert('Geolocation not supported by your browser.');
   }
 
+  // disable button while waiting for response
+  locationButton.attr('disabled', 'disabled');
+
   navigator.geolocation.getCurrentPosition(function (position) {
-    console.log(`console log: lat=${position.coords.latitude} lon=${position.coords.longitude}`)
+    // re-enable button
+    locationButton.removeAttr('disabled');
+    // console.log(`console log: lat=${position.coords.latitude} lon=${position.coords.longitude}`)
     socket.emit('createLocationMessage', {
       latitude: position.coords.latitude,
       longitude: position.coords.longitude
     });
   }, function () {
+    // re-enable button
+      locationButton.removeAttr('disabled');
       alert('unable to fetch location');
   },{
     // needed it seems for some browsers and operating systems
