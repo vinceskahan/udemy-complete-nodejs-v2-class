@@ -31,3 +31,5 @@ class Person {
 }
 
 var me = new Person('me', 25);
+var description = me.getUserDescription();
+console.log(description);
