@@ -16,9 +16,15 @@ describe('generateMessage', () => {
     var message = generateMessage(from,text);
     // old expect syntax
     //    expect(message).toInclude({from,text});
-    expect(message.from).toBe(from);
-    expect(message.text).toBe(text);
+    // brute force
+    //   expect(message.from).toBe(from);
+    //   expect(message.text).toBe(text);
+
+    // jest expect
+    expect(message).toMatchObject({from,text});
+
     expect(typeof message.createdAt).toBe('number');
+    
   });
 
 });
