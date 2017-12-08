@@ -43,9 +43,20 @@ class Users {
     return user;
   }
 
-  // removeUser() {}
-  // getUser() {}
-  // getUserList() {}
+  removeUser(id) {
+    //return user; // return user that was removed
+  }
+
+  getUser(id) {
+    //return user;  // return user that was removed
+  }
+
+  getUserList(room) {
+    console.log(this);
+    var users = this.users.filter((user) => user.room === room);
+    var namesArray = users.map((user) => user.name);
+    return namesArray;
+  }
 
 }
 
