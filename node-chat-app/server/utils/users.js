@@ -44,15 +44,15 @@ class Users {
   }
 
   removeUser(id) {
-    //return user; // return user that was removed
+    //call getUser(id) and pop that user off the users array ?
   }
 
   getUser(id) {
-    //return user;  // return user that was removed
+    var user = this.users.filter((user) => user.id === id)[0];
+    return user;
   }
 
   getUserList(room) {
-    console.log(this);
     var users = this.users.filter((user) => user.room === room);
     var namesArray = users.map((user) => user.name);
     return namesArray;

@@ -36,18 +36,23 @@ describe('Users', () => {
     expect(users.users).toEqual([user]);
   });
 
-  // it('should remove a user', () => {
-  //   var userList = users.removeUser('1');
-  // });
-  //
-  // it('should find user', () => {
-  //   var userList = users.getUser('1');
-  // });
+    // it('should remove a user', () => {
+    //   var userList = users.removeUser('1');
+    //   expect(userList).not.toContain(users.users[0]);
+    // });
 
-  // it('should not find user', () => {
-  //   var userList = users.getUser('12345');
-  // });
-  //
+  it('should find user', () => {
+    var userId = '1';
+    var user = users.getUser(userId);
+    expect(user.id).toBe(userId);
+  });
+
+  it('should not find user', () => {
+    var userId = '12345';
+    var user = users.getUser(userId);
+    expect(user).toBe(undefined);
+  });
+
   // it('should not remove a user', () => {
   //   var userList = users.removeUser('12345');
   // });
