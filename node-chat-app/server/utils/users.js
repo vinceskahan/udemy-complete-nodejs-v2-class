@@ -44,7 +44,11 @@ class Users {
   }
 
   removeUser(id) {
-    //call getUser(id) and pop that user off the users array ?
+    var user = this.getUser(id);
+    if (user) {
+      this.users = this.users.filter((user) => user.id !== id);
+    }
+    return user;
   }
 
   getUser(id) {
