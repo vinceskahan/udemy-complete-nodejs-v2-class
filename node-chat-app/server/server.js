@@ -25,7 +25,8 @@ io.on('connection', (socket) => {
     }
 
     socket.join(params.room);
-    // socket.leave('your name here');
+    // how to leave
+    //  socket.leave('your name here');
 
     // ways we've emitted before:
     //   io.emit - emits to all connected users
@@ -36,7 +37,9 @@ io.on('connection', (socket) => {
     //  io.to(params.room).emit;
     //  socket.broadcast.to(params.room);
 
+    // new user gets a welcome message
     socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));
+    // users in that room (only) get message saying a user has joined
     socket.broadcast.to(params.room).emit('newMessage', generateMessage('Admin', `${params.name} has joined`));
 
     callback();
