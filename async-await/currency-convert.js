@@ -20,6 +20,7 @@ const getExchangeRate = (from, to) => {
 //   console.log(`error ${e}`);
 // });
 
+//----------------------------
 
 const getCountries = (currencyCode) => {
   return axios.get(`https://restcountries.eu/rest/v2/currency/${currencyCode}`).then((response) => {
@@ -34,6 +35,8 @@ const getCountries = (currencyCode) => {
 //   console.log(`error ${e}`);
 // });
 
+//----------------------------
+
 const convertCurrency = (from,to,amount) => {
   let countries;
   return getCountries(to).then((tempCountries) => {
@@ -41,12 +44,27 @@ const convertCurrency = (from,to,amount) => {
     return getExchangeRate(from,to);
   }).then((rate) => {
     const exchangedAmount = amount * rate;
-
     return `${amount} in ${from} is worth ${exchangedAmount} ${to}. ${to} can be used in the following countries: ${countries.join(', ')}`;
   });
 };
 
-convertCurrency('CAD','USD', 100).then((status) => {
+//
+// convertCurrency('USD','CAD', 100).then((status) => {
+//   console.log(status);
+// }).catch((e) => {
+//   console.log(`error ${e}`);
+// });
+
+
+//----- async/await variant
+const convertCurrencyAlt = async (from,to,amount) => {
+  const countries = await getCountries(to);
+  const rate = await getExchangeRate(from,to);
+  const exchangedAmount = amount * rate;
+  return `${amount} in ${from} is worth ${exchangedAmount} ${to}. ${to} can be used in the following countries: ${countries.join(', ')}`;
+};
+
+convertCurrencyAlt('USD','RUB', 100).then((status) => {
   console.log(status);
 }).catch((e) => {
   console.log(`error ${e}`);
