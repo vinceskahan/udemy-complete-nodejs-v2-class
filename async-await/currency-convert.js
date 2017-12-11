@@ -9,8 +9,12 @@
 const axios = require('axios');
 
 const getExchangeRate = (from, to) => {
+  return axios.get(`http://api.fixer.io/latest?base=${from}`).then((response) => {
+    return response.data.rates[to];
+  });
+}
+const getCountries = (currentncyCode) => {
   axios.get(`http://api.fixer.io/latest?base=${from}`).then((response) => {
-    console.log('in getExchangeRate: ',response.data.rates[to]);
     return response.data.rates[to];
   });
 }
