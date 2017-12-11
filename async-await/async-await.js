@@ -39,24 +39,37 @@ const getGrades = (schoolId) => {
   });
 };
 
-// const getUser = (id) => {
-//   return new Promise((resolve,reject) => {
-//     const user = users.find((user) => user.id === id);   // return user if id matches
-//     if (user) {
-//         resolve(user);
-//     } else {
-//       reject(`unable to find user with id of ${id}.`);
-//     }
-//   });
-// };
-//
+// Andrew has a 83% average
+const getStatus = (userId) => {
+  let user;
+  return getUser(userId).then((tempUser) => {
+    user = tempUser;  // need the user info from the found userId from getUser
+    return getGrades(user.schoolId);
+  }).then((grades) => {
+    //--- success callback
+    let average = 0;
+    if (grades.length > 0) {
+      // reduce here adds up the values in the grades array
+      // then get the average by dividing by the number of items of course
+      average = grades.map((grade) => grade.grade).reduce((a,b) => a + b) / grades.length;
+    }
+    return `${user.name} has a ${average}% in the class`;
+  });
+};
+
+getStatus(1).then((status) => {
+  console.log(status);
+}).catch((err) => {
+  console.log(err);
+});
+
 // getUser(2).then((user) => {
 //   console.log(user);
 // }).catch((err) => {
 //   console.log(err);
 // });
-getGrades(101).then((grades) => {
-  console.log(grades);
-}).catch((err) => {
-  console.log(err);
-});
+// getGrades(101).then((grades) => {
+//   console.log(grades);
+// }).catch((err) => {
+//   console.log(err);
+// });
