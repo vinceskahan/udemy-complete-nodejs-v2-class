@@ -66,7 +66,7 @@ app.get('/todos/:id', authenticate, (req, res) => {
   });
 });
 
-app.delete('/todos/:id', authenticate, (req, res) => {
+app.delete('/todos/:id', authenticate, async (req, res) => {
   var id = req.params.id;
 
   // make sure the id is valid
@@ -74,22 +74,22 @@ app.delete('/todos/:id', authenticate, (req, res) => {
     return res.status(404).send();
   }
 
-  // find by id and remove it from the db, returning the text removed
-  Todo.findOneAndRemove({
-    _id: id,
-    _creator: req.user._id
-  }).then((todo) => {
-
+  try {
+    // find by id and remove it from the db, returning the text removed
+    const todo = await Todo.findOneAndRemove({
+      _id: id,
+      _creator: req.user._id
+    });
     // if no matching record found
     if (!todo) {
       return res.status(404).send();
     }
-
     // found it, return the todo
     res.send({todo});
-  }).catch((e) => {
+  } catch (e) {
     res.status(400).send();
-  });
+  }
+
 });
 
 app.patch('/todos/:id', authenticate, (req, res) => {
