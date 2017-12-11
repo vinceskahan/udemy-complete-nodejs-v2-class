@@ -62,14 +62,3 @@ getStatus(1).then((status) => {
 }).catch((err) => {
   console.log(err);
 });
-
-// getUser(2).then((user) => {
-//   console.log(user);
-// }).catch((err) => {
-//   console.log(err);
-// });
-// getGrades(101).then((grades) => {
-//   console.log(grades);
-// }).catch((err) => {
-//   console.log(err);
-// });
