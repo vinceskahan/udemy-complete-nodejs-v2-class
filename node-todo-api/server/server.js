@@ -149,19 +149,15 @@ app.get('/users/me', authenticate, (req, res) => {
   res.send(req.user);
 });
 
-app.post('/users/login', (req, res) => {
-  // just work with what we need
-  var body = _.pick(req.body, ['email', 'password']);
-
-  User.findByCredentials(body.email,body.password).then((user) => {
-    return user.generateAuthToken().then((token) => {
-      // set header to newly generated token, send back response body
-      res.header('x-auth', token).send(user);
-    });
-  }).catch((e) => {
-    // promise was rejected by findByCredentials
+app.post('/users/login', async (req, res) => {
+  try {
+    const body = _.pick(req.body, ['email', 'password']);
+    const user = await User.findByCredentials(body.email,body.password);
+    const token = await user.generateAuthToken();
+    res.header('x-auth', token).send(user);
+} catch (e) {
     res.status(400).send();
-  });
+  }
 });
 
 app.delete('/users/me/token', authenticate, async (req, res) => {
