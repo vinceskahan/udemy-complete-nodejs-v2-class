@@ -128,21 +128,16 @@ app.patch('/todos/:id', authenticate, (req, res) => {
   })
 });
 
-app.post('/users', (req, res) => {
-  // just work with what we need
-  var body = _.pick(req.body, ['email', 'password']);
-  var user = new User(body);
-
-  user.save().then(() => {
-    // generate and return their auth token
-    return user.generateAuthToken();
-  }).then((token) => {
-    // and stick it in the header
+app.post('/users', async (req, res) => {
+  try {
+    var body = _.pick(req.body, ['email', 'password']);
+    const user = new User(body);
+    await user.save();
+    const token =  await user.generateAuthToken();
     res.header('x-auth', token).send(user);
-  }).catch((e) => {
-    // on failure return 400 with the error
-    res.status(400).send(e);
-  })
+  } catch (e) {
+      res.status(400).send(e);
+  }
 });
 
 app.get('/users/me', authenticate, (req, res) => {
